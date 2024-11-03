@@ -99,6 +99,22 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+
+    @Test
+    @DisplayName("should display error when performing unary operation with invalid input")
+    void testInvalidUnaryOperationInput() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(0); // 0 für 1/x
+        calc.pressUnaryOperationKey("1/x");
+
+        String expected = "Error"; // Erwartetes Verhalten: 1/0 führt zu einem Fehler
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+
     //TODO hier weitere Tests erstellen
 }
 
