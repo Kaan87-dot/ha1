@@ -29,12 +29,13 @@ public class Calculator {
      * @param digit Die Ziffer, deren Taste gedrückt wurde
      */
     public void pressDigitKey(int digit) {
-        if(digit > 9 || digit < 0) throw new IllegalArgumentException();
+        if (digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
+        if (screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
     }
+
 
     /**
      * Empfängt den Befehl der C- bzw. CE-Taste (Clear bzw. Clear Entry).
@@ -76,10 +77,11 @@ public class Calculator {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         var result = switch(operation) {
-            case "√" -> Math.sqrt(latestValue);
+            case "√" -> (latestValue == 0) ? 0 : Math.sqrt(latestValue); // Spezieller Fall für √0
             case "%" -> latestValue / 100;
             case "1/x" -> {
                 if (latestValue == 0) yield Double.NaN; // Fehler, wenn 1/0
+                if (latestValue == 1) yield 1; // Spezieller Fall für 1/x bei 1
                 yield 1 / latestValue;
             }
             default -> throw new IllegalArgumentException();
@@ -121,6 +123,7 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+
         var result = switch(latestOperation) {
             case "+" -> latestValue + Double.parseDouble(screen);
             case "-" -> latestValue - Double.parseDouble(screen);

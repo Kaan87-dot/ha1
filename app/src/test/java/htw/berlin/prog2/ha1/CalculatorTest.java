@@ -115,6 +115,25 @@ class CalculatorTest {
     }
 
 
-    //TODO hier weitere Tests erstellen
+
+
+    @Test
+    @DisplayName("should not accept more than 10 digits")
+    void testTooManyDigits() {
+        Calculator calc = new Calculator();
+
+        // Eingabe von 11 Ziffern, was über die 10-stellige Grenze hinausgeht
+        for (int i = 0; i < 11; i++) {
+            calc.pressDigitKey(1);
+        }
+
+        String expected = "1111111111"; // Der Bildschirm sollte nur die ersten 10 Ziffern anzeigen
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+
+ //TODO hier weitere Tests erstellen
 }
 
