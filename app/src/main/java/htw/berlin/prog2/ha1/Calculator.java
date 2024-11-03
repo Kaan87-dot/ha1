@@ -32,7 +32,7 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if (digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        // Überprüfung auf maximale Länge von 10 Ziffern
+        // Überprüfung auf maximale Länge von 10 Ziffern.
         if (screen.length() >= 10) return; // Ignoriert weitere Zifferneingaben, wenn die maximale Länge erreicht ist
 
         if (screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
