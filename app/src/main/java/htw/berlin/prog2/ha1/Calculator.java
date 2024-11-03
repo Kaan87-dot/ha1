@@ -26,15 +26,20 @@ public class Calculator {
      * drücken kann muss der Wert positiv und einstellig sein und zwischen 0 und 9 liegen.
      * Führt in jedem Fall dazu, dass die gerade gedrückte Ziffer auf dem Bildschirm angezeigt
      * oder rechts an die zuvor gedrückte Ziffer angehängt angezeigt wird.
+     * Es wird ein Fehler angezeigt, wenn mehr als 10 Ziffern eingegeben werden.
      * @param digit Die Ziffer, deren Taste gedrückt wurde
      */
     public void pressDigitKey(int digit) {
         if (digit > 9 || digit < 0) throw new IllegalArgumentException();
 
+        // Überprüfung auf maximale Länge von 10 Ziffern
+        if (screen.length() >= 10) return; // Ignoriert weitere Zifferneingaben, wenn die maximale Länge erreicht ist
+
         if (screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
     }
+
 
 
     /**
@@ -77,11 +82,10 @@ public class Calculator {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         var result = switch(operation) {
-            case "√" -> (latestValue == 0) ? 0 : Math.sqrt(latestValue); // Spezieller Fall für √0
+            case "√" -> Math.sqrt(latestValue);
             case "%" -> latestValue / 100;
             case "1/x" -> {
                 if (latestValue == 0) yield Double.NaN; // Fehler, wenn 1/0
-                if (latestValue == 1) yield 1; // Spezieller Fall für 1/x bei 1
                 yield 1 / latestValue;
             }
             default -> throw new IllegalArgumentException();
